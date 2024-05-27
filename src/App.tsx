@@ -6,9 +6,7 @@ import { AddEmployee } from './components/AddEmployee';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
         <AddEmployee/>
-      </header>
     </div>
   );
 }
