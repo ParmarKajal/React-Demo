@@ -1,0 +1,45 @@
+.heading {
+  color: #005d76 !important;
+}
+
+.search-input {
+  width: 200px;
+  height: fit-content;
+}
+
+.add-btn {
+  height: fit-content;
+}
+
+.pagesize-select {
+  width: 70px;
+}
+
+.pagination button {
+  background-color: #2596be;
+}
+
+.pagination button,
+.add-btn {
+  background-color: #2596be;
+  border: 1px solid #2596be;
+  color: white !important;
+}
+
+.pagination button:hover,
+.add-btn:hover {
+  background-color: #2187ab !important;
+  border-color: #2187ab !important;
+}
+
+.pagination button:active,
+.add-btn:active {
+  background-color: #1e7898 !important;
+  border-color: #1e7898 !important;
+}
+
+.pagination button:disabled {
+  background-color: #2596be;
+  border-color: #2596be;
+  opacity: 0.5;
+}

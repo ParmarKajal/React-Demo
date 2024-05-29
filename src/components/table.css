@@ -1,0 +1,22 @@
+table thead th {
+  background-color: #5eb9d2 !important;
+  text-align: center;
+}
+
+table thead th.sortable {
+  cursor: pointer;
+}
+
+table tbody td {
+  background-color: #e0f9ff !important;
+  text-align: center;
+}
+
+.ic-edit {
+  color: #1e7898 !important;
+}
+
+.gender-img {
+  height: 25px;
+  mix-blend-mode: multiply;
+}
