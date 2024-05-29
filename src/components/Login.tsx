@@ -5,7 +5,7 @@ import "./Login.css";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-export const Login: React.FC = () => {
+const Login: React.FC = () => {
   const history = useNavigate();
 
   const initialValues = {
@@ -13,7 +13,10 @@ export const Login: React.FC = () => {
     password: "",
   };
 
-  const handleSubmit = async (values: { username: string; password: string }) => {
+  const handleSubmit = async (values: {
+    username: string;
+    password: string;
+  }) => {
     fetch("https://dummyjson.com/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -28,7 +31,6 @@ export const Login: React.FC = () => {
         if (data.token) {
           toast.success("Login Successfully.");
           history("/employee-list");
-          console.log(data.token)
         } else {
           toast.error("Username or Password incorrect.");
         }
@@ -66,7 +68,7 @@ export const Login: React.FC = () => {
                         ? "border border-danger"
                         : ""
                     }`}
-                    placeHolder="Enter username"
+                    placeholder="Enter username"
                   />
                   <ErrorMessage
                     name="username"
@@ -86,7 +88,7 @@ export const Login: React.FC = () => {
                         ? "border border-danger"
                         : ""
                     }`}
-                    placeHolder="Enter password"
+                    placeholder="Enter password"
                   />
                   <ErrorMessage
                     name="password"
@@ -108,3 +110,5 @@ export const Login: React.FC = () => {
     </div>
   );
 };
+
+export default Login;
