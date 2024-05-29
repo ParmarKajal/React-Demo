@@ -27,7 +27,8 @@ export const Login: React.FC = () => {
       .then((data) => {
         if (data.token) {
           toast.success("Login Successfully.");
-          history("/add-employee");
+          history("/employee-list");
+          console.log(data.token)
         } else {
           toast.error("Username or Password incorrect.");
         }
