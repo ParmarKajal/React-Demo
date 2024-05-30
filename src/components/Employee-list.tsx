@@ -29,20 +29,25 @@ const initialValues = {
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string()
-    .required("Firstname is required")
-    .matches(/^[a-zA-Z\s]*$/, "Invalid firstname"),
+    .required("First Name is required.")
+    .max(20, "First Name must be less than 20.")
+    .matches(/^[a-zA-Z\s]*$/, "Invalid First Name."),
   lastName: Yup.string()
-    .required("Lastname is required")
-    .matches(/^[a-zA-Z\s]*$/, "Invalid lastname"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
+    .required("Last Name is required")
+    .max(20, "Last Name must be less than 20.")
+    .matches(/^[a-zA-Z\s]*$/, "Invalid Last Name."),
+  email: Yup.string().email("Invalid email").required("Email is required."),
   age: Yup.number()
-    .integer("Must be an integer")
-    .positive("Age must be positive")
-    .required("age is required"),
+    .integer("Must be an integer.")
+    .positive("Age must be positive.")
+    .max(130, "Age must be less than 130.")
+    .required("age is required."),
   gender: Yup.string()
-    .required("Gender is required")
-    .oneOf(["male", "female"], "Invalid gender"),
-  address: Yup.string().required("Address is required"),
+    .required("Gender is required.")
+    .oneOf(["male", "female"], "Invalid gender."),
+  address: Yup.string()
+    .required("Address is required.")
+    .max(50, "Address must be less than 50."),
 });
 
 const EmployeeList = () => {
@@ -155,7 +160,6 @@ const EmployeeList = () => {
           return res.json();
         })
         .then((data) => {
-          console.log(data);
           toast.success("User added Successfully.");
           setIsModalOpen(false);
           setUsers((employee) => {
@@ -173,12 +177,29 @@ const EmployeeList = () => {
       fetch("https://dummyjson.com/users/" + values.id, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values,
+          address: { address: values.address },
+        }),
       })
         .then((res) => {
-          res.json();
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return res.json();
         })
         .then((res) => {
+          const index = users.findIndex((user) => user.id === res.id);
+          if (index !== -1) {
+            const updatedUsers = users;
+            updatedUsers[index].firstName = res.firstName + " " + res.lastName;
+            updatedUsers[index].gender = res.gender;
+            updatedUsers[index].email = res.email;
+            updatedUsers[index].age = res.age;
+            updatedUsers[index].address = res.address.address;
+            setUsers(updatedUsers);
+          }
+
           toast.success("User edited Successfully.");
           setIsModalOpen(false);
         });
@@ -218,7 +239,7 @@ const EmployeeList = () => {
           onDelete={onDeleteEmployee}
           onSort={onSortEmployees}
         />
-        <div className="pagination mt-3 gap-3 justify-content-end align-items-center">
+        <div className="pagination mt-3 mb-5 gap-3 justify-content-end align-items-center">
           <select
             className="form-select pagesize-select"
             onChange={onPageSizeChange}
@@ -277,7 +298,7 @@ const EmployeeList = () => {
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             handleSubmit(values);
-            resetForm();
+            // resetForm();
           }}
         >
           {({ errors, touched, resetForm }) => (
@@ -306,7 +327,6 @@ const EmployeeList = () => {
                       className="invalid-feedback"
                     />
                   </div>
-                  <>{console.log(errors)}</>
                   <div className="form-group mb-3">
                     <div className="form-label fw-bold">Last name *</div>
                     <Field
@@ -377,6 +397,10 @@ const EmployeeList = () => {
                       <Field
                         type="radio"
                         name="gender"
+                        style={
+                          touched.gender &&
+                          errors.gender && { borderColor: "red" }
+                        }
                         value="male"
                         className="form-check-input"
                         id="male"
@@ -389,6 +413,10 @@ const EmployeeList = () => {
                       <Field
                         type="radio"
                         name="gender"
+                        style={
+                          touched.gender &&
+                          errors.gender && { borderColor: "red" }
+                        }
                         value="female"
                         className="form-check-input"
                         id="female"
@@ -401,6 +429,10 @@ const EmployeeList = () => {
                       <Field
                         type="radio"
                         name="gender"
+                        style={
+                          touched.gender &&
+                          errors.gender && { borderColor: "red" }
+                        }
                         value="other"
                         className="form-check-input"
                         id="other"
@@ -409,11 +441,14 @@ const EmployeeList = () => {
                         Other
                       </label>
                     </div>
-                    <ErrorMessage
-                      name="gender"
-                      component="div"
-                      className="invalid-feedback"
-                    />
+                    {touched.gender && errors.gender && (
+                      <div
+                        className="text-danger"
+                        style={{ fontSize: ".875em" }}
+                      >
+                        {errors.gender}
+                      </div>
+                    )}
                   </div>
                   <div>
                     <button type="submit" className="btn btn-primary">
