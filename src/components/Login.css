@@ -1,16 +1,16 @@
-.login-container{
-    height: -webkit-fill-available;
+.login-container {
+  height: 100vh;
 }
-.error-message{
-    color:red;
-    padding-left: 10px;
+.error-message {
+  color: red;
+  padding-left: 10px;
 }
-.sign-in-button{
-    background-color: #74a8fd !important;
-    color: white !important;
+.sign-in-button {
+  background-color: #74a8fd !important;
+  color: white !important;
 }
-.rounded-border{
-    border-radius: 5% !important;
+.rounded-border {
+  border-radius: 5% !important;
 }
 input::placeholder,
 textarea::placeholder {
